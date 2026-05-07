@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react'
 
 const NEXT_DROP_DATE = new Date('2026-06-07T10:00:00')
 
+const FILLINGS = [
+  { key: 'revueltas', label: 'Revueltas' },
+  { key: 'queso', label: 'Queso' },
+  { key: 'quesoFrijol', label: 'Queso y Frijol' },
+  { key: 'loroco', label: 'Loroco' },
+]
+
+const EMPTY_FILLINGS = { revueltas: 0, queso: 0, quesoFrijol: 0, loroco: 0 }
+
 const getTimeLeft = (target) => {
   const diff = target - new Date()
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
@@ -13,22 +22,33 @@ const getTimeLeft = (target) => {
   }
 }
 
+
 const dropLabel = NEXT_DROP_DATE.toLocaleDateString('en-US', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 })
-
 const dropShort = NEXT_DROP_DATE.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 
 export const Hero = () => {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(NEXT_DROP_DATE))
   const [showModal, setShowModal] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', quantity: 1, notes: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' })
 
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(getTimeLeft(NEXT_DROP_DATE)), 1000)
     return () => clearInterval(timer)
   }, [])
+
+  const total = Object.values(form.fillings).reduce((sum, n) => sum + Number(n), 0)
+
+  const handleHotkey = (key, qty) => {
+    setForm({ ...form, fillings: { ...form.fillings, [key]: qty } })
+  }
+
+  const handleFilling = (key, value) => {
+    const n = Math.max(0, Number(value) || 0)
+    setForm({ ...form, fillings: { ...form.fillings, [key]: n } })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -39,7 +59,7 @@ export const Hero = () => {
   const handleClose = () => {
     setShowModal(false)
     setSubmitted(false)
-    setForm({ name: '', email: '', quantity: 1, notes: '' })
+    setForm({ name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' })
   }
 
   return (
@@ -102,29 +122,87 @@ export const Hero = () => {
                         onChange={e => setForm({ ...form, email: e.target.value })}
                       />
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label fw-semibold">How many pupusas?</label>
+                    <div className="mb-4">
+                      <label className="form-label fw-semibold">Phone Number</label>
                       <input
-                        type="number"
+                        type="tel"
                         className="form-control"
-                        min="1"
+                        placeholder="(805) 555-1234"
                         required
-                        value={form.quantity}
-                        onChange={e => setForm({ ...form, quantity: e.target.value })}
+                        value={form.phone}
+                        onChange={e => setForm({ ...form, phone: e.target.value })}
                       />
                     </div>
+
+                    <div className="mb-2">
+                      <label className="form-label fw-semibold">Order</label>
+                      <table className="table table-sm align-middle mb-1">
+                        <thead>
+                          <tr>
+                            <th className="text-muted fw-normal">Filling</th>
+                            <th className="text-muted fw-normal text-center">Qty</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {FILLINGS.map(({ key, label }) => (
+                            <tr key={key}>
+                              <td>{label}</td>
+                              <td style={{ width: '80px' }}>
+                                <input
+                                  type="number"
+                                  className="form-control form-control-sm text-center"
+                                  min="0"
+                                  value={form.fillings[key]}
+                                  onChange={e => handleFilling(key, e.target.value)}
+                                />
+                              </td>
+                              <td>
+                                <div className="d-flex gap-1 justify-content-end">
+                                  {[6, 12, 24].map(qty => (
+                                    <button
+                                      key={qty}
+                                      type="button"
+                                      className="btn btn-outline-secondary btn-sm"
+                                      onClick={() => handleHotkey(key, qty)}
+                                    >
+                                      {qty}
+                                    </button>
+                                  ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td className="fw-semibold">Total</td>
+                            <td className="fw-semibold text-center">{total}</td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
                     <div className="mb-4">
-                      <label className="form-label fw-semibold">Notes / Filling Preferences</label>
+                      <label className="form-label fw-semibold">Notes</label>
                       <textarea
                         className="form-control"
-                        rows="3"
-                        placeholder="e.g. bean & cheese, revueltas, cheese only..."
+                        rows="2"
+                        placeholder="Allergies, pickup instructions, anything else..."
                         value={form.notes}
                         onChange={e => setForm({ ...form, notes: e.target.value })}
                       />
                     </div>
+
                     <div className="d-grid">
-                      <button type="submit" className="btn btn-custom-primary btn-lg">Submit Pre-Order</button>
+                      <button
+                        type="submit"
+                        className="btn btn-custom-primary btn-lg"
+                        disabled={total === 0}
+                      >
+                        Submit Pre-Order
+                      </button>
                     </div>
                   </form>
                 )}
