@@ -1,82 +1,44 @@
 :root {
     --background: #FFEEC8;
     --text-color: rgb(37, 99, 37);
+    --navbar-height: 64px;
 }
 
 .header {
     background-color: var(--background);
+    height: var(--navbar-height);
 }
 
 .menu-color {
-    color: var(--text-color); /* Text color for the menu links */
+    color: var(--text-color);
     font-weight: 500;
-    font-size: 16px; /* Adjust the font size if needed */
+    font-size: 16px;
 }
 
 .nav-link.menu-color {
-color: var(--text-color) !important; /* Use !important to ensure it overrides the default */
+    color: var(--text-color) !important;
 }
 
 .nav-link.menu-color:hover {
-color: #6bf253 !important; /* Update hover color if needed */
-}
-
-.header img {
-    width: 3px;
-    height: 3px;
+    color: #6bf253 !important;
 }
 
 .hero-container {
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
-    background-color: #FAE5C3; /* This makes the background cover the whole page */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: var(--navbar-height);
+    background-color: #FAE5C3;
 }
 
-.hero-text {
-    color: #2C3E50;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.hero-image img {
-    max-width: 100%;
-    height: auto;
-}
-
-@media (max-width: 768px) {
-    .hero-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-text {
-        margin-bottom: 2rem;
-    }
-}
-
-body {
-    background-color: #FAE5C3; /* Background color for the whole page */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .btn-custom-primary {
-    background-color: #FF5722; /* Example background color */
-    border-color: #FF5722; /* Border color to match */
-    color: #FFFFFF; /* Text color */
-  }
-  
-  .btn-custom-primary:hover {
-    background-color: #E64A19; /* Darker shade for hover effect */
+    background-color: #FF5722;
+    border-color: #FF5722;
+    color: #FFFFFF;
+}
+
+.btn-custom-primary:hover {
+    background-color: #E64A19;
     border-color: #E64A19;
-  }
-.feature img {
-width: 200px;
-height: 200px;
-object-fit: cover;
 }
 
 .drop-label {
