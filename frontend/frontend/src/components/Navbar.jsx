@@ -17,8 +17,6 @@ const Navbar = () => {
   
           <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="#" className="nav-link px-2 menu-color">Home</a></li>
-            <li><a href="#" className="nav-link px-2 menu-color">Products</a></li>
-            <li><a href="#" className="nav-link px-2 menu-color">Pricing</a></li>
             <li><a href="#" className="nav-link px-2 menu-color">FAQs</a></li>
             <li><a href="#" className="nav-link px-2 menu-color">About</a></li>
           </ul>
