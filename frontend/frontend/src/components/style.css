@@ -30,6 +30,12 @@
     background-color: #FAE5C3;
 }
 
+.page-container {
+    min-height: 100vh;
+    padding-top: var(--navbar-height);
+    background-color: #FAE5C3;
+}
+
 .btn-custom-primary {
     background-color: #FF5722;
     border-color: #FF5722;
