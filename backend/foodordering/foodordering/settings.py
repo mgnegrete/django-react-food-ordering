@@ -126,6 +126,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Kitchen display secret URL token
+KITCHEN_SECRET = 'casapuchica-kitchen-2026'
+
 # CORS — allow the React dev server to call the API
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',

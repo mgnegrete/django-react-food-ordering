@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="30" />
+  <title>Kitchen Display — Casa Puchica</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a1a;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #333;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #FF5722;
+    }
+
+    header .meta {
+      text-align: right;
+      color: #888;
+      font-size: 1rem;
+    }
+
+    .no-drop {
+      text-align: center;
+      margin-top: 6rem;
+      color: #555;
+      font-size: 1.5rem;
+    }
+
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .order-card {
+      background: #2a2a2a;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      border-left: 6px solid #555;
+    }
+
+    .order-card.pending   { border-left-color: #888; }
+    .order-card.confirmed { border-left-color: #FF5722; }
+    .order-card.ready     { border-left-color: #4CAF50; }
+    .order-card.completed { border-left-color: #333; opacity: 0.5; }
+
+    .order-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .fillings {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .filling-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.05rem;
+    }
+
+    .filling-qty {
+      font-weight: 700;
+      color: #FF5722;
+    }
+
+    .filling-zero {
+      color: #444;
+    }
+
+    .total {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .notes {
+      font-size: 0.9rem;
+      color: #aaa;
+      font-style: italic;
+      border-top: 1px solid #333;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .badge-pending   { background: #444; color: #aaa; }
+    .badge-confirmed { background: #FF5722; color: #fff; }
+    .badge-ready     { background: #4CAF50; color: #fff; }
+    .badge-completed { background: #333; color: #666; }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: #444;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Casa Puchica</h1>
+    <div class="meta">
+      {% if drop %}
+        <div>Drop: {{ drop.date|date:"N j, Y" }}</div>
+        <div>{{ orders|length }} order{{ orders|length|pluralize }}</div>
+      {% endif %}
+      <div>Refreshes every 30s</div>
+    </div>
+  </header>
+
+  {% if not drop %}
+    <div class="no-drop">No active drop.</div>
+  {% elif not orders %}
+    <div class="no-drop">No orders yet.</div>
+  {% else %}
+    <div class="orders-grid">
+      {% for order in orders %}
+        <div class="order-card {{ order.status }}">
+          <span class="status-badge badge-{{ order.status }}">{{ order.get_status_display }}</span>
+          <div class="order-name">{{ order.name }}</div>
+          <div class="fillings">
+            <div class="filling-row {% if order.revueltas == 0 %}filling-zero{% endif %}">
+              <span>Revueltas</span>
+              <span class="filling-qty">{{ order.revueltas }}</span>
+            </div>
+            <div class="filling-row {% if order.queso == 0 %}filling-zero{% endif %}">
+              <span>Queso</span>
+              <span class="filling-qty">{{ order.queso }}</span>
+            </div>
+            <div class="filling-row {% if order.queso_frijol == 0 %}filling-zero{% endif %}">
+              <span>Queso y Frijol</span>
+              <span class="filling-qty">{{ order.queso_frijol }}</span>
+            </div>
+            <div class="filling-row {% if order.loroco == 0 %}filling-zero{% endif %}">
+              <span>Loroco</span>
+              <span class="filling-qty">{{ order.loroco }}</span>
+            </div>
+          </div>
+          <div class="total">Total: {{ order.total_pupusas }} pupusa{{ order.total_pupusas|pluralize }}</div>
+          {% if order.notes %}
+            <div class="notes">{{ order.notes }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <footer>Last updated: {% now "N j, Y, P" %}</footer>
+
+</body>
+</html>
