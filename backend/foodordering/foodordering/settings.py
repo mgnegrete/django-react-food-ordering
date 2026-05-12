@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,6 +129,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Kitchen display secret URL token
 KITCHEN_SECRET = 'casapuchica-kitchen-2026'
+
+# Twilio
+TWILIO_ACCOUNT_SID   = config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN    = config('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER  = config('TWILIO_PHONE_NUMBER')
 
 # CORS — allow the React dev server to call the API
 CORS_ALLOWED_ORIGINS = [
