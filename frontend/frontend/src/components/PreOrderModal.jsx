@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { NEXT_DROP_DATE, FILLINGS, EMPTY_FILLINGS, API_BASE_URL } from '../config'
+import { FILLINGS, EMPTY_FILLINGS, API_BASE_URL } from '../config'
 
 const EMPTY_FORM = { name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' }
-
-const dropShort = NEXT_DROP_DATE.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 
 export const PreOrderModal = ({ onClose }) => {
   const [activeDrop, setActiveDrop] = useState(null)
@@ -71,7 +69,7 @@ export const PreOrderModal = ({ onClose }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Pre-Order — {dropShort}</h5>
+            <h5 className="modal-title">Pre-Order — {activeDrop ? new Date(activeDrop.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) : '...'}</h5>
             <button type="button" className="btn-close" onClick={onClose} />
           </div>
           <div className="modal-body">

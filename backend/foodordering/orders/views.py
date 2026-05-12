@@ -9,6 +9,15 @@ from .models import Drop, PreOrder
 from .serializers import DropSerializer, PreOrderSerializer
 
 
+def normalize_phone(phone):
+    digits = ''.join(filter(str.isdigit, phone))
+    if len(digits) == 10:
+        return f'+1{digits}'
+    if len(digits) == 11 and digits.startswith('1'):
+        return f'+{digits}'
+    return phone
+
+
 def send_confirmation_text(order):
     drop_date = order.drop.date.strftime('%B %d, %Y')
     message = (
@@ -20,7 +29,7 @@ def send_confirmation_text(order):
     client.messages.create(
         body=message,
         from_=settings.TWILIO_PHONE_NUMBER,
-        to=order.phone,
+        to=normalize_phone(order.phone),
     )
 
 
