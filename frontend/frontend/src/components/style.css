@@ -36,6 +36,24 @@
     background-color: #FAE5C3;
 }
 
+.accordion-item {
+    background-color: transparent !important;
+}
+
+.accordion-button {
+    background-color: transparent !important;
+    color: #2C3E50 !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #2C3E50 !important;
+    box-shadow: none !important;
+}
+
+.accordion-body {
+    background-color: transparent !important;
+}
+
 .btn-custom-primary {
     background-color: #FF5722;
     border-color: #FF5722;
