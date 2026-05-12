@@ -57,6 +57,11 @@ npm run build     # production build
 npm run lint      # ESLint
 ```
 
+## Workflow
+
+- After making any changes, update `handoff.md` at the repo root to reflect what was added, changed, or completed. Do this before or as part of the same commit.
+- `handoff.md` is gitignored — it lives locally only.
+
 ## Architecture
 
 ### Backend

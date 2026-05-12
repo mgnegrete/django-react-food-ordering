@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
-import { NEXT_DROP_DATE, FILLINGS, EMPTY_FILLINGS } from '../config'
+import { NEXT_DROP_DATE, FILLINGS, EMPTY_FILLINGS, API_BASE_URL } from '../config'
 
 const EMPTY_FORM = { name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' }
 
 const dropShort = NEXT_DROP_DATE.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 
 export const PreOrderModal = ({ onClose }) => {
+  const [activeDrop, setActiveDrop] = useState(null)
+  const [dropError, setDropError] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [apiError, setApiError] = useState(null)
   const [form, setForm] = useState(EMPTY_FORM)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
+    fetch(`${API_BASE_URL}/drops/active/`)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(data => setActiveDrop(data))
+      .catch(() => setDropError(true))
     return () => { document.body.style.overflow = '' }
   }, [])
 
@@ -24,10 +32,38 @@ export const PreOrderModal = ({ onClose }) => {
     setForm({ ...form, fillings: { ...form.fillings, [key]: n } })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: wire to backend
-    setSubmitted(true)
+    setSubmitting(true)
+    setApiError(null)
+    try {
+      const res = await fetch(`${API_BASE_URL}/orders/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          drop: activeDrop.id,
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          revueltas: form.fillings.revueltas,
+          queso: form.fillings.queso,
+          queso_frijol: form.fillings.quesoFrijol,
+          loroco: form.fillings.loroco,
+          notes: form.notes,
+        }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        const message = Object.values(data).flat().join(' ')
+        setApiError(message)
+      } else {
+        setSubmitted(true)
+      }
+    } catch {
+      setApiError('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -44,6 +80,13 @@ export const PreOrderModal = ({ onClose }) => {
                 <i className="bi bi-check-circle text-success fs-1" />
                 <h5 className="mt-3">You're on the list!</h5>
                 <p className="text-muted">We'll reach out with pickup details closer to the drop date.</p>
+                <button className="btn btn-outline-secondary mt-2" onClick={onClose}>Close</button>
+              </div>
+            ) : dropError ? (
+              <div className="text-center py-4">
+                <i className="bi bi-x-circle text-danger fs-1" />
+                <h5 className="mt-3">No active drop right now</h5>
+                <p className="text-muted">Check back soon for the next one.</p>
                 <button className="btn btn-outline-secondary mt-2" onClick={onClose}>Close</button>
               </div>
             ) : (
@@ -140,13 +183,17 @@ export const PreOrderModal = ({ onClose }) => {
                   />
                 </div>
 
+                {apiError && (
+                  <div className="alert alert-danger py-2 mb-3">{apiError}</div>
+                )}
+
                 <div className="d-grid">
                   <button
                     type="submit"
                     className="btn btn-custom-primary btn-lg"
-                    disabled={total === 0}
+                    disabled={total === 0 || submitting || !activeDrop}
                   >
-                    Submit Pre-Order
+                    {submitting ? 'Submitting...' : 'Submit Pre-Order'}
                   </button>
                 </div>
               </form>

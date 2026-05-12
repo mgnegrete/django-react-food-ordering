@@ -1,3 +1,5 @@
+export const API_BASE_URL = 'http://localhost:8000/api'
+
 export const NEXT_DROP_DATE = new Date('2026-06-07T10:00:00')
 
 export const FILLINGS = [
