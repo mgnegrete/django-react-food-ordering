@@ -18,6 +18,15 @@ def normalize_phone(phone):
     return phone
 
 
+def send_ready_text(order):
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    client.messages.create(
+        body=f"Hey {order.name}! Your De la Nana order is ready for pickup. See you soon!",
+        from_=settings.TWILIO_PHONE_NUMBER,
+        to=normalize_phone(order.phone),
+    )
+
+
 def send_confirmation_text(order):
     drop_date = order.drop.date.strftime('%B %d, %Y')
     message = (

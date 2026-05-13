@@ -83,6 +83,9 @@ TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER')
 # CORS
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173', cast=Csv())
 
+# Public-facing site URL — included in bulk SMS announcements
+SITE_URL = config('SITE_URL', default='')
+
 # Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
