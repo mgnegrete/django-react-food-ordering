@@ -58,9 +58,18 @@ export const Hero = () => {
               ))}
             </div>
 
-            <button className="btn btn-custom-primary btn-lg px-5" onClick={() => setShowModal(true)}>
-              Pre-Order Now
-            </button>
+            {drop.spots_remaining > 0 ? (
+              <>
+                <p className="text-muted mb-3">
+                  {drop.spots_remaining} spot{drop.spots_remaining !== 1 ? 's' : ''} remaining
+                </p>
+                <button className="btn btn-custom-primary btn-lg px-5" onClick={() => setShowModal(true)}>
+                  Pre-Order Now
+                </button>
+              </>
+            ) : (
+              <p className="fw-semibold text-muted">This drop is sold out.</p>
+            )}
           </>
         ) : (
           <p className="text-muted">No upcoming drop scheduled yet. Check back soon!</p>
