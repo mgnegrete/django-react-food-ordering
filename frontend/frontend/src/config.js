@@ -1,6 +1,6 @@
 export const API_BASE_URL = 'http://localhost:8000/api'
 
-export const INSTAGRAM = 'delanana'
+export const INSTAGRAM = 'delananasb'
 
 export const FILLINGS = [
   { key: 'revueltas', label: 'Revueltas' },
