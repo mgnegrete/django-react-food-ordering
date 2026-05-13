@@ -21,7 +21,7 @@ def normalize_phone(phone):
 def send_confirmation_text(order):
     drop_date = order.drop.date.strftime('%B %d, %Y')
     message = (
-        f"Hey {order.name}! Your Casa Puchica pre-order is confirmed — "
+        f"Hey {order.name}! Your De la Nana pre-order is confirmed — "
         f"{order.total_pupusas()} pupusa{'s' if order.total_pupusas() != 1 else ''} for {drop_date}. "
         f"We'll text you pickup details soon!"
     )

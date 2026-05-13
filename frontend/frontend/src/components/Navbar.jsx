@@ -8,7 +8,7 @@ const Navbar = () => {
     <header className="header fixed-top border-bottom border-dark">
       <nav className="navbar navbar-expand-md h-100 px-4 px-md-5">
         <NavLink to="/" className="navbar-brand text-decoration-none" end>
-          <span className="logo-text">Casa Puchica</span>
+          <span className="logo-text">De la Nana</span>
         </NavLink>
         <button
           className="navbar-toggler"

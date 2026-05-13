@@ -6,18 +6,18 @@ export const About = () => {
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-lg-7">
-            <h1 className="display-5 fw-bold mb-4">About Casa Puchica</h1>
+            <h1 className="display-5 fw-bold mb-4">About De la Nana</h1>
 
             <p className="lead mb-4">
-              Casa Puchica is a pop-up kitchen bringing authentic Salvadoran pupusas to the 805.
+              De la Nana is a pop-up kitchen bringing authentic Salvadoran pupusas to the 805.
               Every pupusa is made by hand, from scratch, using recipes passed down straight from
               San Miguel, El Salvador.
             </p>
 
             <p className="mb-4">
-              &ldquo;Puchica&rdquo; is a Salvadoran expression — something you say when you&apos;re surprised,
-              excited, or just really happy about something. That&apos;s exactly the feeling we want
-              you to have when you take your first bite.
+              &ldquo;Nana&rdquo; is what we call grandma — and that&apos;s exactly where these recipes come from.
+              Made by hand, passed down through generations, the same way it&apos;s always been done
+              in San Miguel.
             </p>
 
             <p className="mb-4">

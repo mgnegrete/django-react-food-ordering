@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Food ordering web app for **Casa Puchica** — a pop-up pupusa kitchen. Django REST API backend + React/Vite frontend. The project is in early development: the backend has no Django apps yet (only the base project), and the frontend UI has a few landing-page components but no ordering flow.
+Food ordering web app for **De la Nana** — a pop-up pupusa kitchen. Django REST API backend + React/Vite frontend. The project is in early development: the backend has no Django apps yet (only the base project), and the frontend UI has a few landing-page components but no ordering flow.
 
 ## Repository Structure
 
