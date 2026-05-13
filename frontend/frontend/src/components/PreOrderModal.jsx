@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FILLINGS, EMPTY_FILLINGS, API_BASE_URL, PUPUSA_PRICE } from '../config'
+import { FILLINGS, EMPTY_FILLINGS, API_BASE_URL } from '../config'
 
 const EMPTY_FORM = { name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' }
 
@@ -21,7 +21,6 @@ export const PreOrderModal = ({ onClose }) => {
   }, [])
 
   const total = Object.values(form.fillings).reduce((sum, n) => sum + Number(n), 0)
-  const estimatedCost = (total * PUPUSA_PRICE).toFixed(2)
 
   const handleHotkey = (key, qty) =>
     setForm({ ...form, fillings: { ...form.fillings, [key]: qty } })
@@ -175,12 +174,7 @@ export const PreOrderModal = ({ onClose }) => {
                       <tr>
                         <td className="fw-semibold">Total</td>
                         <td className="fw-semibold text-center">{total}</td>
-                        <td className="text-end text-muted small">{total > 0 ? `~$${estimatedCost}` : ''}</td>
-                      </tr>
-                      <tr>
-                        <td colSpan="3" className="text-muted small pt-0">
-                          ${PUPUSA_PRICE.toFixed(2)} per pupusa · exact total at pickup
-                        </td>
+                        <td></td>
                       </tr>
                     </tfoot>
                   </table>

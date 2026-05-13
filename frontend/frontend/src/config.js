@@ -1,6 +1,5 @@
 export const API_BASE_URL = 'http://localhost:8000/api'
 
-export const PUPUSA_PRICE = 4.00
 export const INSTAGRAM = 'casapuchica'
 
 export const FILLINGS = [
