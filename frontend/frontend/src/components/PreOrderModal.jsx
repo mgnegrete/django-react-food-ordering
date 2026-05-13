@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FILLINGS, EMPTY_FILLINGS, API_BASE_URL } from '../config'
+import { FILLINGS, EMPTY_FILLINGS, API_BASE_URL, PUPUSA_PRICE } from '../config'
 
 const EMPTY_FORM = { name: '', email: '', phone: '', fillings: EMPTY_FILLINGS, notes: '' }
 
@@ -21,6 +21,7 @@ export const PreOrderModal = ({ onClose }) => {
   }, [])
 
   const total = Object.values(form.fillings).reduce((sum, n) => sum + Number(n), 0)
+  const estimatedCost = (total * PUPUSA_PRICE).toFixed(2)
 
   const handleHotkey = (key, qty) =>
     setForm({ ...form, fillings: { ...form.fillings, [key]: qty } })
@@ -64,20 +65,24 @@ export const PreOrderModal = ({ onClose }) => {
     }
   }
 
+  const dropDateLabel = activeDrop
+    ? new Date(activeDrop.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+    : '...'
+
   return (
     <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Pre-Order — {activeDrop ? new Date(activeDrop.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) : '...'}</h5>
+            <h5 className="modal-title">Pre-Order — {dropDateLabel}</h5>
             <button type="button" className="btn-close" onClick={onClose} />
           </div>
           <div className="modal-body">
             {submitted ? (
               <div className="text-center py-4">
                 <i className="bi bi-check-circle text-success fs-1" />
-                <h5 className="mt-3">You're on the list!</h5>
-                <p className="text-muted">We'll reach out with pickup details closer to the drop date.</p>
+                <h5 className="mt-3">You&apos;re on the list!</h5>
+                <p className="text-muted">We&apos;ll reach out with pickup details closer to the drop date.</p>
                 <button className="btn btn-outline-secondary mt-2" onClick={onClose}>Close</button>
               </div>
             ) : dropError ? (
@@ -86,6 +91,12 @@ export const PreOrderModal = ({ onClose }) => {
                 <h5 className="mt-3">No active drop right now</h5>
                 <p className="text-muted">Check back soon for the next one.</p>
                 <button className="btn btn-outline-secondary mt-2" onClick={onClose}>Close</button>
+              </div>
+            ) : !activeDrop ? (
+              <div className="text-center py-4">
+                <div className="spinner-border text-secondary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
@@ -164,7 +175,12 @@ export const PreOrderModal = ({ onClose }) => {
                       <tr>
                         <td className="fw-semibold">Total</td>
                         <td className="fw-semibold text-center">{total}</td>
-                        <td></td>
+                        <td className="text-end text-muted small">{total > 0 ? `~$${estimatedCost}` : ''}</td>
+                      </tr>
+                      <tr>
+                        <td colSpan="3" className="text-muted small pt-0">
+                          ${PUPUSA_PRICE.toFixed(2)} per pupusa · exact total at pickup
+                        </td>
                       </tr>
                     </tfoot>
                   </table>
@@ -189,7 +205,7 @@ export const PreOrderModal = ({ onClose }) => {
                   <button
                     type="submit"
                     className="btn btn-custom-primary btn-lg"
-                    disabled={total === 0 || submitting || !activeDrop}
+                    disabled={total === 0 || submitting}
                   >
                     {submitting ? 'Submitting...' : 'Submit Pre-Order'}
                   </button>

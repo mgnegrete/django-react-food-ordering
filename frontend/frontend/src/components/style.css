@@ -1,12 +1,28 @@
 :root {
-    --background: #FFEEC8;
+    --background: #FAE5C3;
     --text-color: rgb(37, 99, 37);
     --navbar-height: 64px;
+}
+
+body {
+    background-color: var(--background);
 }
 
 .header {
     background-color: var(--background);
     height: var(--navbar-height);
+}
+
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    letter-spacing: 0.02em;
+}
+
+.logo-text:hover {
+    color: var(--text-color);
 }
 
 .menu-color {
@@ -20,20 +36,29 @@
 }
 
 .nav-link.menu-color:hover {
-    color: #6bf253 !important;
+    color: #E64A19 !important;
+}
+
+.nav-link.menu-color.active {
+    color: var(--text-color) !important;
+    font-weight: 700;
 }
 
 .hero-container {
     min-height: 100vh;
     width: 100%;
     padding-top: var(--navbar-height);
-    background-color: #FAE5C3;
+    background-color: var(--background);
+}
+
+.hero-heading {
+    font-family: 'Playfair Display', serif;
 }
 
 .page-container {
     min-height: 100vh;
     padding-top: var(--navbar-height);
-    background-color: #FAE5C3;
+    background-color: var(--background);
 }
 
 .accordion-item {
@@ -63,6 +88,7 @@
 .btn-custom-primary:hover {
     background-color: #E64A19;
     border-color: #E64A19;
+    color: #FFFFFF;
 }
 
 .drop-label {
@@ -89,4 +115,17 @@
     letter-spacing: 0.12em;
     color: #888;
     margin-top: 0.3rem;
+}
+
+.footer-bar {
+    background-color: var(--background);
+}
+
+.footer-link {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.footer-link:hover {
+    color: #E64A19;
 }

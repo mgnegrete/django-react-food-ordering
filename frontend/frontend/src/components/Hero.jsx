@@ -16,6 +16,7 @@ const getTimeLeft = (target) => {
 export const Hero = () => {
   const [drop, setDrop] = useState(null)
   const [timeLeft, setTimeLeft] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
@@ -24,8 +25,12 @@ export const Hero = () => {
       .then(data => {
         setDrop(data)
         setTimeLeft(getTimeLeft(data.date))
+        setLoading(false)
       })
-      .catch(() => setDrop(null))
+      .catch(() => {
+        setDrop(null)
+        setLoading(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -38,13 +43,20 @@ export const Hero = () => {
     ? new Date(drop.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : null
 
+  const spotsLeft = drop?.spots_remaining ?? 0
+  const urgency = spotsLeft > 0 && spotsLeft <= 5
+
   return (
     <>
       <div className="hero-container d-flex flex-column align-items-center justify-content-center text-center px-3">
-        <h1 className="display-3 fw-bold mb-2">Casa Puchica</h1>
-        <p className="lead mb-5">Fresh pupusas, straight from San Miguel, El Salvador</p>
+        <h1 className="display-3 fw-bold mb-2 hero-heading">Handmade Salvadoran Pupusas</h1>
+        <p className="lead mb-5">Fresh from our kitchen to the 805 — every month.</p>
 
-        {drop ? (
+        {loading ? (
+          <div className="spinner-border text-secondary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        ) : drop ? (
           <>
             <p className="text-uppercase fw-semibold drop-label mb-1">Next Drop</p>
             <p className="text-muted mb-4">{dropLabel}</p>
@@ -58,10 +70,12 @@ export const Hero = () => {
               ))}
             </div>
 
-            {drop.spots_remaining > 0 ? (
+            {spotsLeft > 0 ? (
               <>
-                <p className="text-muted mb-3">
-                  {drop.spots_remaining} spot{drop.spots_remaining !== 1 ? 's' : ''} remaining
+                <p className={`mb-3 ${urgency ? 'text-danger fw-semibold' : 'text-muted'}`}>
+                  {urgency
+                    ? `Only ${spotsLeft} spot${spotsLeft !== 1 ? 's' : ''} left!`
+                    : `${spotsLeft} spot${spotsLeft !== 1 ? 's' : ''} remaining`}
                 </p>
                 <button className="btn btn-custom-primary btn-lg px-5" onClick={() => setShowModal(true)}>
                   Pre-Order Now

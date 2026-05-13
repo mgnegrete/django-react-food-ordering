@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export const About = () => {
   return (
     <div className="page-container">
@@ -13,13 +15,13 @@ export const About = () => {
             </p>
 
             <p className="mb-4">
-              "Puchica" is a Salvadoran expression — something you say when you're surprised,
-              excited, or just really happy about something. That's exactly the feeling we want
+              &ldquo;Puchica&rdquo; is a Salvadoran expression — something you say when you&apos;re surprised,
+              excited, or just really happy about something. That&apos;s exactly the feeling we want
               you to have when you take your first bite.
             </p>
 
             <p className="mb-4">
-              We sell in limited monthly drops because we believe food made with care shouldn't
+              We sell in limited monthly drops because we believe food made with care shouldn&apos;t
               be rushed. Each drop is a chance to get something real — no shortcuts, no freezers,
               just fresh masa and good fillings.
             </p>
@@ -32,9 +34,10 @@ export const About = () => {
               <li className="mb-2"><strong>Loroco</strong> — cheese with loroco flower, a Salvadoran staple</li>
             </ul>
 
-            <p className="text-muted">
-              Based in the 805. Follow along and pre-order at the next drop.
-            </p>
+            <div className="mt-5 pt-4 border-top">
+              <p className="fw-semibold mb-3">Ready to pre-order?</p>
+              <Link to="/" className="btn btn-custom-primary px-5">See the Next Drop</Link>
+            </div>
           </div>
         </div>
       </div>
