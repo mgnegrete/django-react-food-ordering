@@ -1,0 +1,1 @@
+web: gunicorn foodordering.wsgi --log-file -
